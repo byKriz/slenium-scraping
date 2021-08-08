@@ -53,6 +53,8 @@ class MercadoLibre:
         clean_sales = clean(sales)
         if clean_sales == '':
             return 0
+        elif clean_sales == '1 vendido':
+            return 1
         return int(clean_sales)
 
     def seller_name(self):
@@ -104,8 +106,10 @@ class MercadoLibre:
         return product_info
 
     def csv(self, products):
+        etiquetas = ['Titulo', 'Precio', 'Estado', 'Vendidos', 'Vendedor', 'Puntuacion', 'Edad', 'Ventas']
         with open('mercado_libre.csv', 'a', newline='') as file:
             spamwriter = csv.writer(file, delimiter=';')
+            spamwriter.writerow(etiquetas)
             spamwriter.writerows(products)
 
     def run(self):
@@ -113,7 +117,7 @@ class MercadoLibre:
         total_links = []
         products = []
         np = 1
-        for i in range(10):
+        for i in range(5):
             links = self.__products_links()
             total_links += links
             self.__pagination()
@@ -149,7 +153,7 @@ class MercadoLibre:
 
 
 if __name__ == '__main__':
-    link = r'https://listado.mercadolibre.com.ve/respuestos-de-carro#D[A:respuestos%20de%20carro]'
+    link = r'https://listado.mercadolibre.com.ve/bombillos-led-50w#D[A:bombillos%20led%2050w]'
     cosa = MercadoLibre(link)
     cosa.run()
 
